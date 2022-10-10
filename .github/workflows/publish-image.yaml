@@ -43,7 +43,7 @@ jobs:
             # // const tag = context.ref.substring(10)
         with:
           script: |
-            const tag = "${{ steps.meta.outputs.tags }}"
+            const tag = `${{ steps.meta.outputs.tags }}`
             const no_v = tag.replace(':v', ':')
             const dash_index = no_v.lastIndexOf('-')
             const no_dash = (dash_index > -1) ?  no_v.substring(0, dash_index) : no_v
@@ -57,7 +57,7 @@ jobs:
           context: .
           push: true
           # tags: ${{ steps.meta.outputs.tags }}
-          tags: ${{steps.set_version.outputs.no-v}}, latest
+          tags: ${{steps.set_version.outputs.no-v}}
           labels: ${{ steps.meta.outputs.labels }}
 
         # tags: |
