@@ -4,10 +4,6 @@ on:
   push:
     tags:
       - "v*.*.*"
-# on:
-#   push:
-#     branches:
-#       - get-working
 
 env:
   REGISTRY: ghcr.io
@@ -40,26 +36,16 @@ jobs:
       - name: Set Versions
         uses: actions/github-script@v4
         id: set_version
-            # // const tag = context.ref.substring(10)
         with:
           script: |
             const tag = `${{ steps.meta.outputs.tags }}`
             const no_v = tag.replace(':v', ':')
-            const dash_index = no_v.lastIndexOf('-')
-            const no_dash = (dash_index > -1) ?  no_v.substring(0, dash_index) : no_v
-            core.setOutput('tag', tag)
             core.setOutput('no-v', no_v)
-            core.setOutput('no-dash', no_dash)
 
       - name: Build and push Docker image
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           context: .
           push: true
-          # tags: ${{ steps.meta.outputs.tags }}
           tags: ${{steps.set_version.outputs.no-v}}
           labels: ${{ steps.meta.outputs.labels }}
-
-        # tags: |
-        #   ${{secrets.DOCKERHUB_USERNAME}}/google-java-format:latest
-        #   ${{secrets.DOCKERHUB_USERNAME}}/google-java-format:${{steps.set_version.outputs.no-dash}}
