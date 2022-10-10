@@ -1,20 +1,16 @@
 set shell       := ["bash", "-c"]
 set dotenv-load := true
-# Source of deno scripts. When developing we need to switch this
-export DENO_SOURCE := env_var_or_default("DENO_SOURCE", "https://deno.land/x/metapages@v0.0.15")
-bold                               := '\033[1m'
-normal                             := '\033[0m'
-green                              := "\\e[32m"
-
+normal          := '\033[0m'
+green           := "\\e[32m"
 
 @_help:
     just --list --unsorted --list-heading $'Commands:\n\n'
 
-# builds (versioned) production docker images
-@publish: _check_deno
-    deno run --unstable --allow-read=/.dockerenv {{DENO_SOURCE}}/commands/publish.ts
+# Bump the version and push a git tag (triggers pushing new docker image). inc=major|minor|patch
+@publish inc="patch": _check_deno
+    deno run --unstable  --allow-all https://deno.land/x/metapages@v0.0.15/commands/publish.ts --increment={{inc}}
 
-# Run all build/unit tests
+# builds (versioned) production docker images
 @build:
     docker build -t test .
 
