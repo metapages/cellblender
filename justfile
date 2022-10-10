@@ -12,7 +12,7 @@ green           := "\\e[32m"
     echo -e "Images published by github actions ${green}https://github.com/metapages/cellblender/actions${normal}:"
     echo -e "    👉 ${green}$(git config --get remote.origin.url | sd 'git@github.com:' 'ghcr.io/' | sd '.git' ''):latest${normal}"
     echo -e "    👉 ${green}$(git config --get remote.origin.url | sd 'git@github.com:' 'ghcr.io/' | sd '.git' ''):$( git describe --tags  $(git rev-list --tags --max-count=1))${normal}"
-    ghcr.io/metapages/cellblender:v0.0.4 done
+
 #10 naming to ghcr.io/metapages/cellblender:latest
 
 
