@@ -12,11 +12,9 @@ RUN rm -f /etc/ssl/certs/ca-bundle.crt && \
 ENV VERSION_CELLBLENDER=4.0.6
 ENV VERSION_BLENDER=2.93
 
-# RUN VERSION_CELLBLENDER=4.0.6 ; \
-#     VERSION_BLENDER=2.93 ; \
-#     mkdir -p /usr/local/bin && \
-#     curl https://mcell.org/downloads/Blender-${VERSION_BLENDER}-CellBlender-${VERSION_CELLBLENDER}-Debian-GNU-Linux-9-20220708.tar.gz \
-#         | tar -xzC /usr/local/bin
+RUN mkdir -p /usr/local/bin && \
+    curl https://mcell.org/downloads/Blender-${VERSION_BLENDER}-CellBlender-${VERSION_CELLBLENDER}-Debian-GNU-Linux-9-20220708.tar.gz \
+        | tar -xzC /usr/local/bin
 
 
 
