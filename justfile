@@ -7,8 +7,8 @@ green           := "\\e[32m"
     just --list --unsorted --list-heading $'Commands:\n'
 
 # Bump the version and push a git tag (triggers pushing new docker image). inc=major|minor|patch
-@publish inc="patch": _check_deno
-    deno run --unstable  --allow-all https://deno.land/x/metapages@v0.0.15/commands/publish.ts --increment={{inc}}
+@publish inc="patch": _ensureGitPorcelain _check_deno
+    deno run --unstable  --allow-all https://deno.land/x/metapages@v0.0.17/commands/publish.ts --increment={{inc}}
 
 # builds (versioned) production docker images
 @build:
@@ -21,3 +21,6 @@ green           := "\\e[32m"
         echo -e "💥 deno required: 👉🔗{{green}} https://deno.land/manual@v1.26.1/getting_started/installation {{normal}}"; \
         exit 1; \
     fi
+
+@_ensureGitPorcelain: _check_deno
+    deno run --allow-all --unstable https://deno.land/x/metapages@v0.0.17/git/git-fail-if-uncommitted-files.ts
