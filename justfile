@@ -6,12 +6,13 @@ green           := "\\e[32m"
 @_help:
     just --list --unsorted --list-heading $'Commands:\n'
 
+# _ensureGitPorcelain
 # Bump the version and push a git tag (triggers pushing new docker image). inc=major|minor|patch
-@publish inc="patch": _ensureGitPorcelain _check_deno
-    # deno run --unstable  --allow-all https://deno.land/x/metapages@v0.0.17/commands/publish.ts --increment={{inc}}
-    echo -e "Images published by github actions ${green}https://github.com/metapages/cellblender/actions${normal}:"
-    echo -e "    👉 ${green}$(git config --get remote.origin.url | sd 'git@github.com:' 'ghcr.io/' | sd '.git' ''):latest${normal}"
-    echo -e "    👉 ${green}$(git config --get remote.origin.url | sd 'git@github.com:' 'ghcr.io/' | sd '.git' ''):$( git describe --tags  $(git rev-list --tags --max-count=1))${normal}"
+@publish inc="patch":  _check_deno
+    deno run --unstable  --allow-all https://deno.land/x/metapages@v0.0.17/commands/publish.ts --increment={{inc}}
+    echo -e "  Images published by github actions 🔗 $(git config --get remote.origin.url | sd 'git@github.com:' 'https://github.com/' | sd '\.git' '/actions'):"
+    echo -e "    👉 {{green}}h$(git config --get remote.origin.url | sd 'git@github.com:' 'ghcr.io/' | sd '.git' ''):latest{{normal}}"
+    echo -e "    👉 {{green}}h$(git config --get remote.origin.url | sd 'git@github.com:' 'ghcr.io/' | sd '.git' ''):$( git describe --tags  $(git rev-list --tags --max-count=1)){{normal}}"
 
 #10 naming to ghcr.io/metapages/cellblender:latest
 
